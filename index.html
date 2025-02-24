@@ -3,6 +3,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tab Navigation</title>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông Báo</title>
+  <style>
+    /* Reset mặc định */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Nền mờ khi hộp thoại hiển thị */
+    body.modal-active::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9;
+    }
+
+    /* Hộp thoại */
+    #alertBox {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      display: none;
+      width: 300px;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    /* Tiêu đề */
+    #alertBox p {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    /* Nút */
+    .alert-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .alert-buttons button {
+      border: none;
+      padding: 10px 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .ok-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .ok-btn:hover {
+      background-color: #43a047;
+    }
+
+    .discord-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .discord-btn:hover {
+      background-color: #4CAF50;
+    }
+
+    /* Hiệu ứng xuất hiện */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="alertBox">
+    <p>Theo Dõi Cập Nhật</p>
+    <div class="alert-buttons">
+      <button class="ok-btn" onclick="closeAlert()">Okkkkk</button>
+      <button class="discord-btn" onclick="openDiscord()">Discord</button>
+    </div>
+  </div>
+
+  <script>
+    function showAlert() {
+      document.getElementById('alertBox').style.display = 'block';
+      document.body.classList.add('modal-active');
+    }
+
+    function closeAlert() {
+      document.getElementById('alertBox').style.display = 'none';
+      document.body.classList.remove('modal-active');
+    }
+
+    function openDiscord() {
+      window.open('https://discord.gg/83HpRAPkRX', '_blank');
+    }
+
+    window.onload = showAlert;
+  </script>
+
+</body>
+</html>
     <style>
         body {
             font-family: Arial, sans-serif;

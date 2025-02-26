@@ -107,7 +107,7 @@
   <div id="alertBox">
     <p>Theo Dõi Cập Nhật UgPhone</p>
     <div class="alert-buttons">
-      <button class="ok-btn" onclick="closeAlert()">Khôngg</button>
+      <button class="ok-btn" onclick="closeAlert(10)">Khôngg</button>
       <button class="discord-btn" onclick="openDiscord()">Discord</button>
     </div>
   </div>
@@ -118,16 +118,33 @@
       document.body.classList.add('modal-active');
     }
 
-    function closeAlert() {
+    function closeAlert(delayInSeconds) {
       document.getElementById('alertBox').style.display = 'none';
       document.body.classList.remove('modal-active');
+
+      // Lưu thời gian bấm nút "Khôngg" vào localStorage
+      const futureTime = Date.now() + delayInSeconds * 1000;
+      localStorage.setItem('nextAlertTime', futureTime);
     }
 
     function openDiscord() {
       window.open('https://discord.gg/83HpRAPkRX', '_blank');
+
+      // Lưu thời gian bấm nút "Discord" vào localStorage (48 giờ)
+      const futureTime = Date.now() + 48 * 60 * 60 * 1000;
+      localStorage.setItem('nextAlertTime', futureTime);
+
+      closeAlert(0); // Ẩn hộp thoại ngay lập tức
     }
 
-    window.onload = showAlert;
+    function checkAndShowAlert() {
+      const nextAlertTime = localStorage.getItem('nextAlertTime');
+      if (!nextAlertTime || Date.now() > parseInt(nextAlertTime)) {
+        showAlert();
+      }
+    }
+
+    window.onload = checkAndShowAlert;
   </script>
 
 </body>
@@ -155,7 +172,7 @@
             text-align: center;
             flex: 1;
             color: gray;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out;
             padding: 5px 0;

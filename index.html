@@ -10,7 +10,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thông Báo</title>
   <style>
-    /* Reset mặc định */
     * {
       margin: 0;
       padding: 0;
@@ -18,7 +17,6 @@
       font-family: Arial, sans-serif;
     }
 
-    /* Nền mờ khi hộp thoại hiển thị */
     body.modal-active::before {
       content: "";
       position: fixed;
@@ -30,7 +28,6 @@
       z-index: 9;
     }
 
-    /* Hộp thoại */
     #alertBox {
       position: fixed;
       top: 50%;
@@ -47,14 +44,12 @@
       animation: fadeIn 0.4s ease-in-out;
     }
 
-    /* Tiêu đề */
     #alertBox p {
       font-size: 18px;
       font-weight: bold;
       margin-bottom: 15px;
     }
 
-    /* Nút */
     .alert-buttons {
       display: flex;
       justify-content: center;
@@ -69,27 +64,14 @@
       font-size: 14px;
       font-weight: bold;
       transition: 0.2s;
-    }
-
-    .ok-btn {
       background-color: #FFC0CB;
       color: white;
     }
 
-    .ok-btn:hover {
-      background-color: #FFC0CB;
+    .alert-buttons button:hover {
+      background-color: #ff9aad;
     }
 
-    .discord-btn {
-      background-color: #FFC0CB;
-      color: white;
-    }
-
-    .discord-btn:hover {
-      background-color: #FFC0CB;
-    }
-
-    /* Hiệu ứng xuất hiện */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -107,34 +89,38 @@
   <div id="alertBox">
     <p>Theo Dõi Cập Nhật UgPhone</p>
     <div class="alert-buttons">
-      <button class="ok-btn" onclick="closeAlert(10)">Khôngg</button>
+      <button class="ok-btn" onclick="closeAlert()">Khôngg</button>
       <button class="discord-btn" onclick="openDiscord()">Discord</button>
     </div>
   </div>
 
   <script>
+    const ALERT_DELAY = 10 * 60 * 60 * 1000; // 10 giờ
+
     function showAlert() {
       document.getElementById('alertBox').style.display = 'block';
       document.body.classList.add('modal-active');
     }
 
-    function closeAlert(delayInSeconds) {
-      document.getElementById('alertBox').style.display = 'none';
-      document.body.classList.remove('modal-active');
-
-      // Lưu thời gian bấm nút "Khôngg" vào localStorage
-      const futureTime = Date.now() + delayInSeconds * 1000;
-      localStorage.setItem('nextAlertTime', futureTime);
+    function closeAlert() {
+      setNextAlertTime(ALERT_DELAY);
+      hideAlertBox();
     }
 
     function openDiscord() {
+      setNextAlertTime(ALERT_DELAY);
       window.open('https://discord.gg/83HpRAPkRX', '_blank');
+      hideAlertBox();
+    }
 
-      // Lưu thời gian bấm nút "Discord" vào localStorage (48 giờ)
-      const futureTime = Date.now() + 48 * 60 * 60 * 1000;
+    function setNextAlertTime(delay) {
+      const futureTime = Date.now() + delay;
       localStorage.setItem('nextAlertTime', futureTime);
+    }
 
-      closeAlert(0); // Ẩn hộp thoại ngay lập tức
+    function hideAlertBox() {
+      document.getElementById('alertBox').style.display = 'none';
+      document.body.classList.remove('modal-active');
     }
 
     function checkAndShowAlert() {

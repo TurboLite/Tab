@@ -24,145 +24,206 @@
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
-    body {
-      background: url('https://i.imgur.com/RHSdk0h.png') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 50px;
+
+    body.modal-active::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9;
     }
-    /* Hồ sơ người dùng */
-    .profile {
-      display: flex;
-      align-items: center;
+
+    #alertBox {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: white;
-      padding: 15px;
-      border-radius: 15px;
-      width: 90%;
-      max-width: 350px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      display: none;
+      width: 300px;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    #alertBox p {
+      font-size: 18px;
+      font-weight: bold;
       margin-bottom: 15px;
     }
-    .profile img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 15px;
-    }
-    .profile p {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: black;
-    }
-    /* Mời người mới */
-    .invite-box {
-      background: white;
-      padding: 15px;
-      border-radius: 15px;
-      width: 90%;
-      max-width: 350px;
+
+    .alert-buttons {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      justify-content: center;
+      gap: 12px;
     }
-    .invite-box .left {
-      display: flex;
-      align-items: center;
-    }
-    .invite-box img {
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
-    }
-    .invite-box p {
-      font-size: 1rem;
-      color: black;
-      font-weight: bold;
-    }
-    .invite-box .right {
-      background: #f3c27d;
-      padding: 8px 15px;
-      border-radius: 15px;
-      font-size: 0.9rem;
-      font-weight: bold;
+
+    .alert-buttons button {
+      border: none;
+      padding: 10px 16px;
       cursor: pointer;
-    }
-    /* Grid menu */
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      width: 90%;
-      max-width: 400px;
-      background: rgba(255, 255, 255, 0.8);
-      padding: 15px;
-      border-radius: 15px;
-    }
-    .grid-item {
-      display: flex;
-      align-items: center;
-      background: white;
-      padding: 15px;
-      border-radius: 15px;
-      cursor: pointer;
-    }
-    .grid-item img {
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
-    }
-    .grid-item p {
-      font-size: 1rem;
-      color: black;
+      border-radius: 6px;
+      font-size: 14px;
       font-weight: bold;
+      transition: 0.2s;
+      background-color: #FFC0CB;
+      color: white;
+    }
+
+    .alert-buttons button:hover {
+      background-color: #ff9aad;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -55%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hồ sơ người dùng -->
-  <div class="profile">
-    <img src="https://i.imgur.com/Gk4Qdeu.jpeg" alt="Avatar">
-    <p>Chị Chị Turbo Lite Lazy ♥️</p>
-  </div>
-
-  <!-- Mời người mới -->
-  <div class="invite-box">
-    <div class="left">
-      <img src="https://i.imgur.com/1z0zeya.png" alt="Icon">
-      <p>Kim Cương</p>
-    </div>
-    <div class="right"> 999.999.999.999 </div>
-  </div>
-
-  <!-- Grid menu -->
-  <div class="grid-container">
-    <div class="grid-item" onclick="openURL('https://youtube.com/@turboxlite')">
-      <img src="https://img.utdstc.com/icon/367/c07/367c07a62d78fa7d0253ec501c789b8251ac8fb62e2d0185ed38c9417af1bed0:200" alt="Icon">
-      <p>YouTube</p>
-    </div>
-    <div class="grid-item" onclick="openURL('https://www.tiktok.com/@game.turbografx')">
-      <img src="https://sf16-website-login.neutral.ttwstatic.com/obj/tiktok_web_login_static/tiktok/webapp/main/react-v18/webapp-seo-mobile/0c398b018482cebeb833.png" alt="Icon">
-      <p>TikTok</p>
-    </div>
-    <div class="grid-item" onclick="openURL('https://discord.gg/PXBcWMEgNP')">
-      <img src="https://img.utdstc.com/icon/5ed/010/5ed01047ff16ea45ec92a448cd98f0a807eeca466da7c176a1b2b5f2ca8deb66:200" alt="Icon">
-      <p>Discord</p>
-    </div>
-    <div class="grid-item" onclick="openURL('https://turbolite.xyz/')">
-      <img src="https://cdn-icons-png.flaticon.com/128/892/892634.png" alt="Icon">
-      <p>Website</p>
+  <div id="alertBox">
+    <p>Theo Dõi Cập Nhật UgPhone</p>
+    <div class="alert-buttons">
+      <button class="ok-btn" onclick="closeAlert()">Khôngg</button>
+      <button class="discord-btn" onclick="openDiscord()">Discord</button>
     </div>
   </div>
 
   <script>
-    function openURL(url) {
-      window.open(url, "_blank");
+    const ALERT_DELAY = 10 * 60 * 60 * 1000; // 10 giờ
+
+    function showAlert() {
+      document.getElementById('alertBox').style.display = 'block';
+      document.body.classList.add('modal-active');
     }
+
+    function closeAlert() {
+      setNextAlertTime(ALERT_DELAY);
+      hideAlertBox();
+    }
+
+    function openDiscord() {
+      setNextAlertTime(ALERT_DELAY);
+      window.open('https://discord.gg/83HpRAPkRX', '_blank');
+      hideAlertBox();
+    }
+
+    function setNextAlertTime(delay) {
+      const futureTime = Date.now() + delay;
+      localStorage.setItem('nextAlertTime', futureTime);
+    }
+
+    function hideAlertBox() {
+      document.getElementById('alertBox').style.display = 'none';
+      document.body.classList.remove('modal-active');
+    }
+
+    function checkAndShowAlert() {
+      const nextAlertTime = localStorage.getItem('nextAlertTime');
+      if (!nextAlertTime || Date.now() > parseInt(nextAlertTime)) {
+        showAlert();
+      }
+    }
+
+    window.onload = checkAndShowAlert;
   </script>
 
+</body>
+</html>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .tab-bar {
+            position: fixed;
+            bottom: 200;
+            left: 200;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            border-top: px solid #ccc;
+            padding: 1px 0;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .tab-item {
+            text-align: center;
+            flex: 1;
+            color: gray;
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out;
+            padding: 5px 0;
+            border-radius: 5px;
+        }
+        .tab-item.active, .tab-item:active {
+            color: black;
+            background-color: white;
+        }
+        .tab-item img {
+            width: 24px;
+            height: 24px;
+            display: block;
+            margin: 0 auto 2px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .tab-item:active img {
+            transform: scale(1.6);
+        }
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 60px);
+            border: none;
+            transition: opacity 0.4s ease-in-out;
+        }
+    </style>
+    <script>
+        function openTab(url, element) {
+            document.getElementById('iframe-content').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('iframe-content').src = url;
+                document.getElementById('iframe-content').style.opacity = '1';
+            }, 300);document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
+        element.classList.add('active');
+    }
+</script>
+
+</head>
+<body>
+    <iframe id="iframe-content" class="iframe-container" src="https://turbolite.github.io/Premium"></iframe>
+    <div class="tab-bar">
+        <div class="tab-item active" onclick="openTab('https://turbolite.github.io/Premium', this)">
+            <img src="https://i.imgur.com/EA7i8gx.png" alt="Thiết Bị">
+            Thiết Bị 
+        </div>
+        <div class="tab-item" onclick="openTab('https://turbolite.github.io/Meow', this)">
+            <img src="https://i.imgur.com/w0BFWAH.png" alt="Game">
+            Quản Lý 
+        </div>
+        <div class="tab-item" onclick="openTab('https://turbolite.github.io/1/', this)">
+            <img src="https://i.imgur.com/kkdC2yF.png" alt="Free">
+            Game
+        </div>
+        <div class="tab-item" onclick="openTab('https://turbolite.github.io/Home//', this)">
+            <img src="https://i.imgur.com/WdcEV9E.png" alt="Tôi">
+            Home
+        </div>
+    </div>
 </body>
 </html>

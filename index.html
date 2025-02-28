@@ -3,187 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="theme-color" content="#ffffff"> <!-- Đổi màu thanh trạng thái thành trắng -->
-    <title>Tab</title>
-</head>
-<body>
-<script>
-    document.addEventListener('gesturestart', function (event) {
-        event.preventDefault();
-    });
-
-    document.addEventListener('wheel', function (event) {
-        if (event.ctrlKey) {
-            event.preventDefault();
-        }
-    }, { passive: false });
-</script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body.modal-active::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 9;
-    }
-
-    #alertBox {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      z-index: 10;
-      display: none;
-      width: 300px;
-      animation: fadeIn 0.4s ease-in-out;
-    }
-
-    #alertBox p {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .alert-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .alert-buttons button {
-      border: none;
-      padding: 10px 16px;
-      cursor: pointer;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: bold;
-      transition: 0.2s;
-      background-color: #FFC0CB;
-      color: white;
-    }
-
-    .alert-buttons button:hover {
-      background-color: #ff9aad;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translate(-50%, -55%);
-      }
-      to {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <div id="alertBox">
-    <p>Theo Dõi Cập Nhật UgPhone</p>
-    <div class="alert-buttons">
-      <button class="ok-btn" onclick="closeAlert()">Khôngg</button>
-      <button class="discord-btn" onclick="openDiscord()">Discord</button>
-    </div>
-  </div>
-
-  <script>
-    const ALERT_DELAY = 10 * 60 * 60 * 1000; // 10 giờ
-
-    function showAlert() {
-      document.getElementById('alertBox').style.display = 'block';
-      document.body.classList.add('modal-active');
-    }
-
-    function closeAlert() {
-      setNextAlertTime(ALERT_DELAY);
-      hideAlertBox();
-    }
-
-    function openDiscord() {
-      setNextAlertTime(ALERT_DELAY);
-      window.open('https://discord.gg/83HpRAPkRX', '_blank');
-      hideAlertBox();
-    }
-
-    function setNextAlertTime(delay) {
-      const futureTime = Date.now() + delay;
-      localStorage.setItem('nextAlertTime', futureTime);
-    }
-
-    function hideAlertBox() {
-      document.getElementById('alertBox').style.display = 'none';
-      document.body.classList.remove('modal-active');
-    }
-
-    function checkAndShowAlert() {
-      const nextAlertTime = localStorage.getItem('nextAlertTime');
-      if (!nextAlertTime || Date.now() > parseInt(nextAlertTime)) {
-        showAlert();
-      }
-    }
-
-    window.onload = checkAndShowAlert;
-  </script>
-
-</body>
-</html>
+    <title>Tab Navigation</title>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
+
         .tab-bar {
             position: fixed;
-            bottom: 200;
-            left: 200;
+            bottom: 0;
+            left: 0;
             width: 100%;
             display: flex;
             justify-content: space-around;
             background-color: white;
-            border-top: px solid #ccc;
-            padding: 1px 0;
-            transition: background-color 0.3s ease-in-out;
-        }
-        
-           .tab-item {
-           -webkit-tap-highlight-color: transparent;
+            border-top: 1px solid #ccc;
+            padding: 5px 0;
         }
 
-           .tab-item:focus {
-            outline: none;
-        }
         .tab-item {
             text-align: center;
             flex: 1;
-            color: gray;
             font-size: 12px;
             cursor: pointer;
-            transition: color 0.5s ease-in-out, background-color 0.5s ease-in-out;
             padding: 5px 0;
             border-radius: 5px;
+            -webkit-tap-highlight-color: transparent;
+            color: gray;
+            transition: color 0.5s ease-in-out;
         }
-        .tab-item.active, .tab-item:active {
-            color: black;
-            background-color: white;
+
+        .tab-item.active {
+            color: red; /* Màu đỏ khi tab được chọn */
         }
 
         .tab-item img {
@@ -193,9 +48,7 @@
             margin: 0 auto 2px;
             transition: transform 0.2s ease-in-out;
         }
-        .tab-item:active img {
-            transform: scale(1.6);
-        }
+
         .iframe-container {
             width: 100%;
             height: calc(100vh - 60px);
@@ -203,37 +56,79 @@
             transition: opacity 0.4s ease-in-out;
         }
     </style>
+</head>
+<body>
+
+    <iframe id="iframe-content" class="iframe-container" src="https://turbolite.github.io/Premium"></iframe>
+
+    <div class="tab-bar">
+        <div class="tab-item active" onclick="openTab('https://turbolite.github.io/Premium', this)" data-tab="thietbi">
+            <img src="https://i.imgur.com/YcNNVKr.png" alt="Thiết Bị">
+            <span>Thiết Bị</span>
+        </div>
+ 
+        <div class="tab-item" onclick="openTab('https://turbolite.github.io/1/', this)" data-tab="game">
+            <img src="https://i.imgur.com/rvmhLgP.png" alt="Game">
+            <span>Game</span>
+        </div>
+        <div class="tab-item" onclick="openTab('https://turbolite.github.io/Meow', this)" data-tab="quanly">
+            <img src="https://i.imgur.com/mdFmmVr.png" alt="Quản Lý">
+            <span>Quản Lý</span>
+        </div>
+        <div class="tab-item" onclick="openTab('https://turbolite.github.io/Home/', this)" data-tab="home">
+            <img src="https://i.imgur.com/gPPZf93.png" alt="Home">
+            <span>Home</span>
+        </div>
+    </div>
+
     <script>
         function openTab(url, element) {
             document.getElementById('iframe-content').style.opacity = '0';
+
             setTimeout(() => {
                 document.getElementById('iframe-content').src = url;
                 document.getElementById('iframe-content').style.opacity = '1';
-            }, 300);document.querySelectorAll('.tab-item').forEach(tab => tab.classList.remove('active'));
-        element.classList.add('active');
-    }
-</script>
+            }, 300);
 
-</head>
-<body>
-    <iframe id="iframe-content" class="iframe-container" src="https://turbolite.github.io/Premium"></iframe>
-    <div class="tab-bar">
-        <div class="tab-item active" onclick="openTab('https://turbolite.github.io/Premium', this)">
-            <img src="https://i.imgur.com/EA7i8gx.png" alt="Thiết Bị">
-            Thiết Bị 
-        </div>
-        <div class="tab-item" onclick="openTab('https://turbolite.github.io/Meow', this)">
-            <img src="https://i.imgur.com/w0BFWAH.png" alt="Game">
-            Quản Lý 
-        </div>
-        <div class="tab-item" onclick="openTab('https://turbolite.github.io/1/', this)">
-            <img src="https://i.imgur.com/kkdC2yF.png" alt="Free">
-            Game
-        </div>
-        <div class="tab-item" onclick="openTab('https://turbolite.github.io/Home//', this)">
-            <img src="https://i.imgur.com/WdcEV9E.png" alt="Tôi">
-            Home
-        </div>
-    </div>
+            document.querySelectorAll('.tab-item').forEach(tab => {
+                tab.classList.remove('active');
+
+                // Đổi lại màu chữ thành xám
+                tab.querySelector("span").style.color = "gray";
+
+                if (tab.dataset.tab === "thietbi") {
+                    tab.querySelector("img").src = "https://i.imgur.com/YcNNVKr.png";
+                }
+                if (tab.dataset.tab === "quanly") {
+                    tab.querySelector("img").src = "https://i.imgur.com/mdFmmVr.png";
+                }
+                if (tab.dataset.tab === "game") {
+                    tab.querySelector("img").src = "https://i.imgur.com/rvmhLgP.png";
+                }
+                if (tab.dataset.tab === "home") {
+                    tab.querySelector("img").src = "https://i.imgur.com/gPPZf93.png";
+                }
+            });
+
+            element.classList.add('active');
+
+            // Đổi màu chữ của tab đang được chọn thành đỏ
+            element.querySelector("span").style.color = "red";
+
+            if (element.dataset.tab === "thietbi") {
+                element.querySelector("img").src = "https://i.imgur.com/EA7i8gx.png";
+            }
+            if (element.dataset.tab === "quanly") {
+                element.querySelector("img").src = "https://i.imgur.com/sPbMuuY.png";
+            }
+            if (element.dataset.tab === "game") {
+                element.querySelector("img").src = "https://i.imgur.com/MD59IfV.png";
+            }
+            if (element.dataset.tab === "home") {
+                element.querySelector("img").src = "https://i.imgur.com/WhQ50sV.png";
+            }
+        }
+    </script>
+
 </body>
 </html>
